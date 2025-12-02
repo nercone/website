@@ -1,4 +1,4 @@
 {
-  "versions": ["stable"],
+  "stable": {"dependencies": {}},
   "latest": "stable"
 }
