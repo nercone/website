@@ -2,12 +2,15 @@
 {% block title %}Nercone Blog{% endblock %}
 {% block description %}Nercone(ネルコン)の気まぐれな技術ブログ{% endblock %}
 {% block extra_title %}Blog{% endblock %}
+{% block extra_head %}
+        <link rel="stylesheet" href="/assets/styles/blog.css">
+{% endblock %}
 {% block content %}
             <h2 class="text-bold">Nercone Blog</h1>
             <p style="padding-bottom: 16px;">Nercone(ネルコン)の気まぐれな技術ブログ</p>
             {% for article in list_articles() %}
             <a href="{{ article.path }}">
-                <div style="background-color: oklch(0.197 0.008 264.0); border-radius: 8px; padding: 8px; padding-left: 28px; padding-bottom: 16px;">
+                <div class="article-card">
                     <h3>{{ article.title }}</h3>
                     <p>{{ article.description }}</p>
                 </div>
