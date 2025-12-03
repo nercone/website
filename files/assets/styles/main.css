@@ -86,13 +86,13 @@ pre {
     font-weight: 700;
 }
 .text-highlight {
-    color: oklch(55% 0 0);
+    color: oklch(40% 0 0);
 }
 .text-lowlight {
-    color: oklch(75% 0 0);
+    color: oklch(70% 0 0);
 }
 h1.text-lowlight, h2.text-lowlight, h3.text-lowlight, h4.text-lowlight, h5.text-lowlight, h6.text-lowlight {
-    color: oklch(65% 0 0);
+    color: oklch(40% 0 0);
 }
 .text-white {
     color: oklch(100% 0 0);
