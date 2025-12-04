@@ -85,6 +85,9 @@ pre {
 .text-bold {
     font-weight: 700;
 }
+.text-underline {
+    text-decoration: underline;
+}
 .text-highlight {
     color: oklch(50% 0 0);
 }
