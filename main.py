@@ -10,7 +10,7 @@ from nercone_modern.color import ModernColor
 from nercone_modern.logging import ModernLogging
 from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse
+from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, JSONResponse
 from jinja2.exceptions import TemplateNotFound
 from bs4 import BeautifulSoup
 
@@ -202,6 +202,10 @@ async def middleware(request: Request, call_next):
         status_code_color = "red"
     logger.log(f"{ModernColor.color(status_code_color)}{response.status_code}{ModernColor.color('reset')} {access_id} {request.client.host} {ModernColor.color('gray')}{request.url}{ModernColor.color('reset')}", level_text=log_level)
     return response
+
+@app.api_route("/status", methods=["GET"])
+async def short_url(request: Request, url_id: str):
+    return JSONResponse({"status": "ok"}, status_code=200)
 
 @app.api_route("/to/{url_id:path}", methods=["GET", "POST", "HEAD"])
 async def short_url(request: Request, url_id: str):
