@@ -150,7 +150,7 @@ async def middleware(request: Request, call_next):
     proxy_route = []
     origin_client_host = request.client.host
     if "X-Forwarded-For" in request.headers:
-        proxy_route = request.headers.get("X-Forwarded-For").split(", ")
+        proxy_route = request.headers.get("X-Forwarded-For").split(",")
         origin_client_host = proxy_route[0]
     exception: Exception | None = None
     response.headers["Server"] = "Nercone Web Server"
@@ -167,11 +167,11 @@ async def middleware(request: Request, call_next):
         f.write(f"REQUEST.URL : {request.url}\n")
         for i in range(len(proxy_route)):
             if proxy_route[i] == origin_client_host:
-                f.write(f"REQUEST.ROUT[{i}] O {proxy_route[i]}\n")
+                f.write(f"REQUEST.ROUT[{i}] O {proxy_route[i].strip()}\n")
             elif proxy_route[i] == request.client.host:
-                f.write(f"REQUEST.ROUT[{i}] P {proxy_route[i]}\n")
+                f.write(f"REQUEST.ROUT[{i}] P {proxy_route[i].strip()}\n")
             else:
-                f.write(f"REQUEST.ROUT[{i}] M {proxy_route[i]}\n")
+                f.write(f"REQUEST.ROUT[{i}] M {proxy_route[i].strip()}\n")
         for key, value in request.headers.items():
             f.write(f"REQUEST.HEAD[{key}]: {value}\n")
         for key, value in request.cookies.items():
