@@ -1,3 +1,3 @@
-uv pip install -r requirements.txt --upgrade
-git pull
-sudo systemctl restart nercone-webserver
+/home/nercone/.local/bin/uv pip install -r requirements.txt --upgrade
+/usr/bin/git pull
+sudo /usr/bin/systemctl restart nercone-webserver
