@@ -1,0 +1,9 @@
+[Unit]
+Description=Nercone Web Server Updater
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/srv/nercone-webserver
+ExecStart=/usr/bin/sh /srv/nercone-webserver/update.sh
