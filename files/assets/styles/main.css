@@ -57,6 +57,7 @@ h1, h2, h3, h4, h5, h6 {
     color: oklch(0% 0 0);
 }
 pre {
+    color: oklch(45% 0 0);
     background-color: oklch(0.959 0.004 256.0);
     padding: 10px;
     padding-left: 20px;
@@ -172,6 +173,7 @@ h1.text-lowlight, h2.text-lowlight, h3.text-lowlight, h4.text-lowlight, h5.text-
         color: #ffffff;
     }
     pre {
+        color: oklch(75% 0 0);
         background-color: oklch(0.197 0.008 264.0);
     }
     .code {
