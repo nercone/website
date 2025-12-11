@@ -1,0 +1,32 @@
+<rsl xmlns="https://rslstandard.org/rsl">
+  <content url="/">
+    <license>
+      <legal type="warranty">
+        ownership authority no-infringement privacy-consent no-malware
+      </legal>
+      <legal type="disclaimer">
+        as-is no-warranty no-liability no-indemnity
+      </legal>
+      <legal type="attestation">true</legal>
+      <legal type="contact">mailto:nercone@diamondgotcat.net</legal>
+    </license>
+    <copyright type="person" contactEmail="nercone@diamondgotcat.net">
+      Nercone
+    </copyright>
+    <license>
+      <permits type="usage">all</permits>
+      <permits type="user">personal</permits>
+      <payment type="free"/>
+    </license>
+    <license>
+      <permits type="usage">all</permits>
+      <permits type="user">non-commercial education government</permits>
+      <payment type="attribution"/>
+    </license>
+    <license>
+      <permits type="usage">search ai-index</permits>
+      <permits type="user">commercial</permits>
+      <payment type="free"/>
+    </license>
+  </content>
+</rsl>

@@ -12,34 +12,7 @@
 User-Agent: *
 Content-signal: search=yes,ai-train=no,ai-input=no
 Allow: /
-
-# ByteDance
-User-agent: Bytespider
-Disallow: /
-
-# OpenAI ML/AI
-User-agent: GPTBot
-Disallow: /
-
-# Google ML/AI
-User-agent: Google-Extended
-Disallow: /
-
-# Anthropic ML/AI
-User-agent: ClaudeBot
-Disallow: /
-
-# Apple ML/AI
-User-agent: Applebot-Extended
-Disallow: /
-
-# Meta ML/AI
-User-agent: meta-externalagent
-Disallow: /
-
-# Amazon ML/AI
-User-agent: Amazonbot
-Disallow: /
+License: https://diamondgotcat.net/license.xml
 
 # ╭──────────────────────────────────────────────╮
 # │ Thanks for reading and following robots.txt. │
