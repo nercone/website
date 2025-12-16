@@ -35,6 +35,7 @@ block_messages = [
     "404 Vulnerability Not Found.",
     "Please upgrade your hacking skills."
 ]
+MAX_BODY_LOG_SIZE = 1024 * 100 # 100KB
 
 def strip_ip_chars(s: str) -> str:
     return re.sub(r'[^0-9A-Fa-f:.]', '', s)
@@ -94,6 +95,7 @@ class AccessClientType(Enum):
 
 @app.middleware("http")
 async def middleware(request: Request, call_next):
+    start_time = datetime.now(timezone.utc)
     if request.scope.get("state", {}).get("is_retry", False):
         return await call_next(request)
     request_body = await request.body()
@@ -186,11 +188,23 @@ async def middleware(request: Request, call_next):
         origin_client_host = proxy_route[0]
     exception: Exception | None = None
     response.headers["Server"] = "Nercone Web Server"
+    response_body = b""
+    if not isinstance(response, (FileResponse, RedirectResponse)):
+        async for chunk in response.body_iterator:
+            response_body += chunk
+        response = Response(
+            content=response_body,
+            status_code=response.status_code,
+            headers=dict(response.headers),
+            media_type=response.media_type,
+        )
+    end_time = datetime.now(timezone.utc)
     access_log_dir = Path(__file__).parent.joinpath("logs", "access")
     if not access_log_dir.exists():
         access_log_dir.mkdir(parents=True, exist_ok=True)
-    with access_log_dir.joinpath(f"{access_id}.txt").open("w") as f:
+    with access_log_dir.joinpath(f"{access_id}.txt").open("w", encoding="utf-8") as f:
         f.write("[REQUEST]\n")
+        f.write(f"REQUEST.TIME: {start_time.strftime('%Y-%m-%dT%H:%M:%SZ')}\n")
         f.write(f"REQUEST.METH: {request.method}\n")
         f.write(f"REQUEST.HOST: {request.client.host}\n") # type: ignore
         f.write(f"REQUEST.PORT: {request.client.port}\n") # type: ignore
@@ -208,6 +222,14 @@ async def middleware(request: Request, call_next):
             f.write(f"REQUEST.HEAD[{key}]: {value}\n")
         for key, value in request.cookies.items():
             f.write(f"REQUEST.COOK[{key}]: {value}\n")
+        if 0 < len(request_body) <= MAX_BODY_LOG_SIZE:
+            try:
+                decoded_body = request_body.decode("utf-8")
+                f.write("REQUEST.BODY: ---\n")
+                f.write(decoded_body)
+                f.write("---\n")
+            except UnicodeDecodeError:
+                pass
         f.write("\n")
         try:
             whois_result = whois(origin_client_host)
@@ -218,10 +240,23 @@ async def middleware(request: Request, call_next):
         except:
             pass
         f.write("[RESPONSE]\n")
+        f.write(f"RESPONSE.TIME: {end_time.strftime('%Y-%m-%dT%H:%M:%SZ')}\n")
         f.write(f"RESPONSE.CODE: {response.status_code}\n")
         f.write(f"RESPONSE.CHAR: {response.charset}\n")
         for key, value in response.headers.items():
             f.write(f"RESPONSE.HEAD[{key}]: {value}\n")
+        if 0 < len(response_body) <= MAX_BODY_LOG_SIZE:
+            try:
+                charset = response.charset if response.charset else 'utf-8'
+                try:
+                    decoded_body = response_body.decode(charset)
+                except (UnicodeDecodeError, LookupError):
+                    decoded_body = response_body.decode('utf-8', errors='replace')
+                f.write("RESPONSE.BODY: ---\n")
+                f.write(decoded_body)
+                f.write("---\n")
+            except UnicodeDecodeError:
+                pass
         if exception:
             f.write("\n")
             f.write("[EXCEPTION]\n")
