@@ -191,14 +191,17 @@ async def middleware(request: Request, call_next):
         response.headers["Server"] = "Nercone Web Server"
         response_body = b""
         if not isinstance(response, (FileResponse, RedirectResponse)):
-            async for chunk in response.body_iterator:
-                response_body += chunk
-            response = Response(
-                content=response_body,
-                status_code=response.status_code,
-                headers=dict(response.headers),
-                media_type=response.media_type,
-            )
+            if hasattr(response, "body_iterator"):
+                async for chunk in response.body_iterator:
+                    response_body += chunk
+                response = Response(
+                    content=response_body,
+                    status_code=response.status_code,
+                    headers=dict(response.headers),
+                    media_type=response.media_type,
+                )
+            elif hasattr(response, "body"):
+                response_body = response.body
         end_time = datetime.now(timezone.utc)
         access_log_dir = Path(__file__).parent.joinpath("logs", "access")
         if not access_log_dir.exists():
