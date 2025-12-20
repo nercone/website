@@ -101,7 +101,7 @@
             }
             main {
                 padding: 24px;
-                padding-top: 70px;
+                padding-top: 60px;
                 padding-bottom: 10px;
                 flex: 1;
             }
@@ -137,10 +137,11 @@
                 color: oklch(0% 0 0);
             }
             pre {
-                color: oklch(45% 0 0);
-                background-color: oklch(95% 0 0);
                 padding: 10px;
                 padding-left: 20px;
+                border: solid;
+                border-width: 1px;
+                border-color: oklch(75% 0 0);
                 border-radius: 5px;
                 overflow-x: auto;
                 white-space: pre;
@@ -150,10 +151,12 @@
                 font-style: normal;
             }
             .code {
-                color: oklch(45% 0 0);
-                background-color: oklch(95% 0 0);
-                font-size: smaller;
-                padding: 2.5px;
+                font-size: small;
+                margin: 4px;
+                padding: 4px;
+                border: solid;
+                border-width: 1px;
+                border-color: oklch(75% 0 0);
                 border-radius: 5px;
                 white-space: pre;
                 font-family: "MesloLGS Nerd Font", "SF Mono", "M PLUS 1 Code", sans-serif;
@@ -251,15 +254,13 @@
                     background-color: oklch(0% 0 0 / 75%);
                 }
                 h1, h2, h3, h4, h5, h6 {
-                    color: #ffffff;
+                    color: oklch(100% 0 0);
                 }
                 pre {
-                    color: oklch(75% 0 0);
-                    background-color: oklch(0.2 0 0);
+                    border-color: oklch(25% 0 0);
                 }
                 .code {
-                    color: oklch(75% 0 0);
-                    background-color: oklch(0.2 0 0);
+                    border-color: oklch(25% 0 0);
                 }
                 .text-highlight {
                     color: oklch(85% 0 0);

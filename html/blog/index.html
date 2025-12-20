@@ -5,7 +5,9 @@
 {% block extra_head %}
         <style>
             .article-card {
-                background-color: oklch(98% 0 0);
+                border: solid;
+                border-width: 1px;
+                border-color: oklch(75% 0 0);
                 border-radius: 8px;
                 padding: 8px;
                 padding-left: 28px;
@@ -13,7 +15,7 @@
             }
             @media (prefers-color-scheme: dark) {
                 .article-card {
-                    background-color: oklch(18% 0 0);
+                    border-color: oklch(25% 0 0);
                 }
             }
         </style>
