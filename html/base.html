@@ -75,9 +75,13 @@
             html {
                 color: oklch(55% 0 0);
                 background-color: oklch(100% 0 0);
-                line-height: 1.2;
+                line-height: 1.5;
                 margin: 0;
+                padding: 0;
+                padding-top: 0;
+                padding-bottom: 0;
                 font-family: "SF Compact Display", "SF Compact Text", "SF Compact", "SF Pro Display", "SF Pro Text", "SF Pro", "MesloLGS Nerd Font", "Noto Sans", "Noto Sans JP", sans-serif;
+                font-size: 12pt;
                 font-optical-sizing: auto;
                 font-weight: 400;
                 font-style: normal;
@@ -122,7 +126,6 @@
             section {
                 padding-top: 4px;
                 padding-bottom: 4px;
-                line-height: 1.5;
             }
             a {
                 text-decoration: underline;
@@ -130,17 +133,13 @@
             }
             h1 {
                 font-weight: 700;
-                line-height: 0.5;
+                line-height: 8pt;
             }
             h2 {
                 font-weight: 500;
-                line-height: 0;
             }
-            section h2 {
-                line-height: 0.7;
-            }
-            section h3 {
-                line-height: 0;
+            section h2, section h3 {
+                line-height: 8pt;
             }
             h1, h2, h3, h4, h5, h6 {
                 color: oklch(0% 0 0);
@@ -170,7 +169,7 @@
             .code {
                 font-size: small;
                 margin: 4px;
-                padding: 4px;
+                padding: 2px;
                 border: solid;
                 border-width: 1px;
                 border-color: oklch(75% 0 0);
