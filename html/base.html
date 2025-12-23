@@ -374,21 +374,27 @@
 
                         const newMain = doc.querySelector("main");
                         const currentMain = document.querySelector("main");
-
                         if (!newMain || !currentMain) {
                             location.href = url.href;
                             return;
                         }
-
                         currentMain.innerHTML = newMain.innerHTML;
-                        document.title = doc.title;
 
+                        const newFooter = doc.querySelector("footer");
+                        const currentFooter = document.querySelector("footer");
+                        if (!newFooter || !currentFooter) {
+                            location.href = url.href;
+                            return;
+                        }
+                        currentFooter.innerHTML = newFooter.innerHTML;
+
+                        document.title = doc.title;
                         const newDescription = doc.querySelector('meta[name="description"]');
                         const currentDescription = document.querySelector('meta[name="description"]');
-
                         if (newDescription && currentDescription) {
                             currentDescription.setAttribute("content", newDescription.getAttribute("content"));
                         }
+
                         history.pushState(null, "", url.href);
                     });
                 });
