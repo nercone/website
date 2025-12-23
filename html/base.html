@@ -249,17 +249,17 @@
             .hide {
                 display: none;
             }
-            @media (max-width: 430px) {
+            @media (max-width: 480px) {
                 .hide.show-on-small {
                     display: block;
                 }
             }
-            @media (min-width: 430px) {
+            @media (min-width: 480px) {
                 .hide.show-on-medium {
                     display: block;
                 }
             }
-            @media (min-width: 730px) {
+            @media (min-width: 800px) {
                 .hide.show-on-large {
                     display: block;
                 }
@@ -424,7 +424,7 @@
         <header class="flex">
             <div class="flex-1 flex">
                 <p class="text-highlight"><a href="/" class="text-bold text-no-decoration">Nercone</a> {% block extra_title %}Home{% endblock %}</p>
-                <p>{% block header_desc %}I am Cat.{% endblock %}</p>
+                <p class="show-on-medium">{% block header_desc %}I am Cat.{% endblock %}</p>
             </div>
             <div class="flex">
                 <p>#{{ get_counter() }}</p>
