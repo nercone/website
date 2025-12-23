@@ -123,6 +123,11 @@
                 gap: 16px;
                 z-index: 10;
             }
+            footer > div:nth-child(2) {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
             section {
                 padding-top: 4px;
                 padding-bottom: 4px;
@@ -431,7 +436,7 @@
                 <p class="text-bold text-highlight text-no-decoration">Nercone</p>
                 <p>Copyright (c) 2025 DiamondGotCat</p>
             </div>
-            <div class="flex-1 flex">
+            <div class="flex-1 flex hide show-on-large">
                 <a href="/about/" class="text-no-decoration">About</a>
                 <a href="/blog/" class="text-no-decoration">Blog</a>
                 <a href="/projects/" class="text-no-decoration">Projects</a>
