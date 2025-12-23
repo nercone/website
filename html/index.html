@@ -1,8 +1,8 @@
 {% extends "/base.html" %}
 {% block title %}Nercone (ネルコン){% endblock %}
 {% block description %}作りたいものを作り、やりたくないことからは逃げる学生{% endblock %}
+{% block header_desc %}{{ todays_phrase() }}{% endblock %}
 {% block content %}
             <h1 class="text-bold">Nercone's Website</h1>
             <p>作りたいものを作り、やりたくないことからは逃げる学生</p>
-            <pre>daily_phrases&#91;today&#93; = &quot;{{ todays_phrase() }}&quot;</pre>
 {% endblock %}
