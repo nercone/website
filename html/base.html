@@ -419,12 +419,12 @@
         <header class="flex">
             <div class="flex-1 flex">
                 <p class="text-highlight"><a href="/" class="text-bold text-no-decoration">Nercone</a> {% block extra_title %}Home{% endblock %}</p>
-                <p class="show-on-medium">{% block header_desc %}I am Cat.{% endblock %}</p>
+                <p class="hide show-on-medium">{% block header_desc %}I am Cat.{% endblock %}</p>
             </div>
             <div class="flex">
                 <p>#{{ get_counter() }}</p>
                 <a href="/blog/" class="text-no-decoration">Blog</a>
-                <a href="https://github.com/DiamondGotCat/nercone-webserver/" target="_blank" rel="noopener noreferrer" class="text-no-decoration show-on-medium">Source Code</a>
+                <a href="https://github.com/DiamondGotCat/nercone-webserver/" target="_blank" rel="noopener noreferrer" class="text-no-decoration hide show-on-medium">Source Code</a>
             </div>
         </header>
         <main>{% block content %}{% endblock %}        </main>
