@@ -93,7 +93,7 @@
                 flex-direction: column;
             }
             header {
-                view-transition-name: none;
+                view-transition-name: header-content;
                 background-color: oklch(100% 0 0 / 75%);
                 backdrop-filter: blur(5px);
                 position: fixed;
@@ -335,6 +335,13 @@
                 to   { filter: blur(0px); }
             }
             @media (prefers-reduced-motion: reduce) {
+                ::view-transition-old(header-content),
+                ::view-transition-new(header-content) {
+                    z-index: 1;
+                    pointer-events: none;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
                 ::view-transition-old(main-content),
                 ::view-transition-new(main-content) {
                     z-index: 1;
@@ -371,6 +378,14 @@
 
                         const html = await response.text();
                         const doc = new DOMParser().parseFromString(html, "text/html");
+
+                        const newHeader = doc.querySelector("header");
+                        const currentHeader = document.querySelector("header");
+                        if (!newHeader || !currentHeader) {
+                            location.href = url.href;
+                            return;
+                        }
+                        currentHeader.innerHTML = newHeader.innerHTML;
 
                         const newMain = doc.querySelector("main");
                         const currentMain = document.querySelector("main");
