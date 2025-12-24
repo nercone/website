@@ -2,10 +2,27 @@
 {% block title %}アクセスカウンタ - Nercone{% endblock %}
 {% block extra_title %}Access Counter{% endblock %}
 {% block header_desc %}ただのアクセスカウンタ{% endblock %}
+{% block extra_head %}
+            <style>
+                main {
+                    display: grid;
+                    grid-template-rows: auto 1fr auto;
+                }
+                .counter {
+                    margin: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 64pt;
+                }
+            </style>
+{% endblock %}
 {% block content %}
             <p class="text-small text-bold"><a href="/" class="text-no-decoration">← ホーム</a></p>
-            <h1>{{ get_counter() }}</h1>
-            <p>誰かがこのサイトのページへのアクセスに成功した場合に自動的に1増えます。(pngなどのファイルへのアクセスは加算されません)</p>
-            <p>詳しくは<a href="https://github.com/DiamondGotCat/nercone-webserver/blob/main/main.py">このサーバーのソースコード</a>へ</p>
-            <p class="text-lowlight">※キリ番報告は不要です</p>
+            <p class="text-highlight counter">{{ get_counter() }}</p>
+            <div class="block">
+                <p>誰かがこのサイトのページへのアクセスに成功した場合に自動的に1増えます。(pngなどのファイルへのアクセスは加算されません)</p>
+                <p>詳しくは<a href="https://github.com/DiamondGotCat/nercone-webserver/blob/main/main.py">このサーバーのソースコード</a>へ</p>
+                <p class="text-lowlight">※キリ番報告は不要です</p>
+            </div>
 {% endblock %}
