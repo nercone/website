@@ -109,7 +109,7 @@ def list_articles():
     articles = []
     if not article_dir.exists():
         return articles
-    html_files = sorted(article_dir.glob("*.html"))
+    html_files = sorted(article_dir.glob("*.html"), reverse=True)
     for file_path in html_files:
         try:
             relative_path = file_path.relative_to(base_dir).as_posix()
