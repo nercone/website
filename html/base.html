@@ -389,18 +389,34 @@
 
                         const newHead = doc.querySelector("head");
                         const currentHead = document.querySelector("head");
+                        if (!newHead || !currentHead) {
+                            location.href = url.href;
+                            return;
+                        }
                         currentHead.innerHTML = newHead.innerHTML;
 
                         const newHeader = doc.querySelector("header");
                         const currentHeader = document.querySelector("header");
+                        if (!newHeader || !currentHeader) {
+                            location.href = url.href;
+                            return;
+                        }
                         currentHeader.innerHTML = newHeader.innerHTML;
 
                         const newMain = doc.querySelector("main");
                         const currentMain = document.querySelector("main");
+                        if (!newMain || !currentMain) {
+                            location.href = url.href;
+                            return;
+                        }
                         currentMain.innerHTML = newMain.innerHTML;
 
                         const newFooter = doc.querySelector("footer");
                         const currentFooter = document.querySelector("footer");
+                        if (!newFooter || !currentFooter) {
+                            location.href = url.href;
+                            return;
+                        }
                         currentFooter.innerHTML = newFooter.innerHTML;
 
                         history.pushState(null, "", url.href);
