@@ -63,39 +63,62 @@ def whois(address: str) -> str | None:
         return None
 
 def get_counter() -> int:
-    conn = sqlite3.connect("main.db")
-    try:
-        cur = conn.cursor()
-        cur.execute("SELECT value FROM access_counter WHERE rowid = 1")
-        row = cur.fetchone()
-        if row is None:
-            conn.execute("""
-            CREATE TABLE IF NOT EXISTS access_counter (
-                value INTEGER NOT NULL
-            )
-            """)
-            conn.execute("INSERT OR IGNORE INTO access_counter (rowid, value) VALUES (1, 0)")
-            conn.commit()
-            return 0
-        return row[0]
-    finally:
+    if not Path("main.db").is_file():
+        conn = sqlite3.connect("main.db")
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS access_counter (
+            value INTEGER NOT NULL
+        )
+        """)
+        conn.execute("INSERT OR IGNORE INTO access_counter (rowid, value) VALUES (1, 0)")
+        conn.commit()
         conn.close()
+        return 0
+    else:
+        conn = sqlite3.connect("main.db")
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT value FROM access_counter WHERE rowid = 1")
+            row = cur.fetchone()
+            if row is None:
+                conn.execute("""
+                CREATE TABLE IF NOT EXISTS access_counter (
+                    value INTEGER NOT NULL
+                )
+                """)
+                conn.execute("INSERT OR IGNORE INTO access_counter (rowid, value) VALUES (1, 0)")
+                conn.commit()
+                return 0
+            return row[0]
+        finally:
+            conn.close()
 templates.env.globals["get_counter"] = get_counter
 
 def increment_counter():
-    conn = sqlite3.connect("main.db")
-    try:
-        cur = conn.cursor()
-        conn.execute("BEGIN IMMEDIATE")
-        cur.execute(
-            "UPDATE access_counter SET value = value + 1 WHERE rowid = 1"
+    if not Path("main.db").is_file():
+        conn = sqlite3.connect("main.db")
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS access_counter (
+            value INTEGER NOT NULL
         )
+        """)
+        conn.execute("INSERT OR IGNORE INTO access_counter (rowid, value) VALUES (1, 1)")
         conn.commit()
-    except Exception:
-        conn.rollback()
-        raise
-    finally:
         conn.close()
+    else:
+        conn = sqlite3.connect("main.db")
+        try:
+            cur = conn.cursor()
+            conn.execute("BEGIN IMMEDIATE")
+            cur.execute(
+                "UPDATE access_counter SET value = value + 1 WHERE rowid = 1"
+            )
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
 
 def todays_phrase():
     today = datetime.now(timezone.utc).date()
