@@ -160,13 +160,13 @@ def list_articles():
     return articles
 templates.env.globals["list_articles"] = list_articles
 
-def list_cledit_pages():
+def list_credit_pages():
     base_dir = Path(__file__).parent / "html"
-    cledit_dir = base_dir / "cledit"
+    credit_dir = base_dir / "credit"
     pages = []
-    if not cledit_dir.exists():
+    if not credit_dir.exists():
         return pages
-    html_files = sorted(cledit_dir.glob("*.html"), reverse=True)
+    html_files = sorted(credit_dir.glob("*.html"), reverse=True)
     for file_path in html_files:
         try:
             relative_path = file_path.relative_to(base_dir).as_posix()
@@ -174,20 +174,20 @@ def list_cledit_pages():
             rendered_html = template.render()
             soup = BeautifulSoup(rendered_html, "html.parser")
             title_tag = soup.find("title")
-            title = str(title_tag.string).replace(" - Nercone Cledit", "") if title_tag else "No Title"
+            title = str(title_tag.string).replace(" - Nercone Credit", "") if title_tag else "No Title"
             meta_desc = soup.find("meta", attrs={"name": "description"})
             description = meta_desc["content"] if meta_desc else ""
             pages.append({
                 "title": title,
                 "description": description,
                 "filename": file_path.name,
-                "path": f"/cledit/{file_path.name.replace('.html', '')}"
+                "path": f"/credit/{file_path.name.replace('.html', '')}"
             })
         except Exception as e:
             print(f"Error parsing {file_path}: {e}")
             continue
     return pages
-templates.env.globals["list_cledit_pages"] = list_cledit_pages
+templates.env.globals["list_credit_pages"] = list_credit_pages
 
 class AccessClientType(Enum):
     FastGet = "FastGet"

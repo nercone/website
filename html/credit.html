@@ -1,12 +1,12 @@
 {% extends "/base.html" %}
-{% block title %}Nercone Cledit{% endblock %}
-{% block extra_title %}Cledit{% endblock %}
+{% block title %}Nercone Credit{% endblock %}
+{% block extra_title %}Credit{% endblock %}
 {% block header_desc %}Hello{% endblock %}
 {% block content %}
             <p class="text-small text-bold"><a href="/" class="text-no-decoration">← Home</a></p>
             <p>Here, I publish a list of other software and the like that I have actually used in some of the software I have developed so far.</p>
             <p>Please note that this is not complete or exhaustive.</p>
-            {% for page in list_cledit_pages() %}
+            {% for page in list_credit_pages() %}
             <a href="{{ page.path }}" class="text-no-decoration">
                 <div class="block">
                     <h3>{{ page.title }}</h3>
