@@ -17,6 +17,14 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://diamondgotcat.net/credit/</loc>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://diamondgotcat.net/gnupg/</loc>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <loc>https://diamondgotcat.net/blog/</loc>
         <priority>0.9</priority>
     </url>
