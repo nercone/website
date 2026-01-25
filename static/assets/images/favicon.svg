@@ -3,23 +3,33 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #404040;
+        opacity: .5;
       }
 
-      .cls-2 {
-        fill: #ccc;
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        opacity: .75;
+      }
+
+      .cls-4 {
+        fill: #202020;
       }
     </style>
   </defs>
-  <rect class="cls-1" x="0" y="0" width="720" height="720" rx="360" ry="360"/>
+  <circle class="cls-4" cx="360" cy="360" r="360"/>
   <g>
-    <rect class="cls-2" x="156" y="264" width="48" height="192"/>
-    <rect class="cls-2" x="300" y="336" width="48" height="120"/>
-    <rect class="cls-2" x="228" y="264" width="48" height="120"/>
-    <rect class="cls-2" x="372" y="264" width="48" height="192"/>
-    <rect class="cls-2" x="444" y="264" width="48" height="192"/>
-    <rect class="cls-2" x="516" y="264" width="48" height="48"/>
-    <rect class="cls-2" x="516" y="336" width="48" height="48"/>
-    <rect class="cls-2" x="516" y="408" width="48" height="48"/>
+    <rect class="cls-1" x="147.5" y="410" width="125" height="50"/>
+    <g class="cls-3">
+      <rect class="cls-2" x="222.5" y="335" width="50" height="50"/>
+    </g>
+    <rect class="cls-2" x="297.5" y="260" width="50" height="200"/>
+    <rect class="cls-2" x="372.5" y="260" width="50" height="200"/>
+    <g class="cls-3">
+      <rect class="cls-2" x="447.5" y="335" width="125" height="50"/>
+    </g>
+    <rect class="cls-1" x="522.5" y="260" width="50" height="50"/>
   </g>
 </svg>

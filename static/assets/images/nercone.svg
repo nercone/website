@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+<svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
   <defs>
     <style>
       .cls-1 {
-        fill: #404040;
+        opacity: .5;
       }
 
-      .cls-2 {
-        fill: #ccc;
+      .cls-1, .cls-2 {
+        fill: #fff;
       }
 
       .cls-3 {
-        fill: #636363;
+        opacity: .75;
       }
 
       .cls-4 {
-        fill: #818181;
+        fill: #202020;
       }
     </style>
   </defs>
-  <rect class="cls-1" width="1920" height="1080"/>
+  <rect class="cls-4" width="1024" height="1024"/>
   <g>
-    <rect class="cls-2" x="824" y="476" width="32" height="128"/>
-    <rect class="cls-2" x="920" y="524" width="32" height="80"/>
-    <rect class="cls-2" x="872" y="476" width="32" height="80"/>
-    <rect class="cls-2" x="968" y="476" width="32" height="128"/>
-    <rect class="cls-2" x="1016" y="476" width="32" height="128"/>
-    <rect class="cls-2" x="1064" y="476" width="32" height="32"/>
-    <rect class="cls-2" x="1064" y="524" width="32" height="32"/>
-    <rect class="cls-2" x="1064" y="572" width="32" height="32"/>
+    <rect class="cls-1" x="240" y="576" width="160" height="64"/>
+    <g class="cls-3">
+      <rect class="cls-2" x="336" y="480" width="64" height="64"/>
+    </g>
+    <rect class="cls-2" x="432" y="384" width="64" height="256"/>
+    <rect class="cls-2" x="528" y="384" width="64" height="256"/>
+    <g class="cls-3">
+      <rect class="cls-2" x="624" y="480" width="160" height="64"/>
+    </g>
+    <rect class="cls-1" x="720" y="384" width="64" height="64"/>
   </g>
-  <polygon class="cls-3" points="0 540 1920 810 1920 1080 0 1080 0 540"/>
-  <polygon class="cls-4" points="1920 540 0 1080 1920 1080 1920 540"/>
 </svg>
