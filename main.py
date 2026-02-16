@@ -32,7 +32,7 @@ logger = ModernLogging("nercone-webserver", filepath=str(log_filepath))
 log_exclude_paths = ["status"]
 onion_hostname = "4sbb7xhdn4meuesnqvcreewk6sjnvchrsx4lpnxmnjhz2soat74finid.onion"
 templates.env.globals["onion_site_url"] = f"http://{onion_hostname}/"
-allowed_hostnames = ["localhost", "d-g-c.net", "diamondgotcat.net", onion_hostname]
+allowed_hostnames = ["localhost", "nercone.dev", "d-g-c.net", "diamondgotcat.net", onion_hostname]
 daily_phrases = [
     "MarkItDownのネーミングセンス良いよね",
     "LinuxディストリビューションはFedoraが最強",
@@ -417,7 +417,7 @@ async def middleware(request: Request, call_next):
 
 @app.api_route("/cu", methods=["GET"])
 async def canonical_url_redirect(request: Request):
-    return RedirectResponse(url="https://diamondgotcat.net/")
+    return RedirectResponse(url="https://nercone.dev/")
 
 @app.api_route("/cut", methods=["GET"])
 async def canonical_onion_url_redirect(request: Request):
