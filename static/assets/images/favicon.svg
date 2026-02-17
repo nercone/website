@@ -13,13 +13,13 @@
   </defs>
   <rect class="cls-2" width="720" height="720" rx="160" ry="160"/>
   <g>
-    <rect class="cls-1" x="122" y="248" width="56" height="224"/>
-    <rect class="cls-1" x="290" y="332" width="56" height="140"/>
-    <rect class="cls-1" x="206" y="248" width="56" height="140"/>
-    <rect class="cls-1" x="374" y="248" width="56" height="224"/>
-    <rect class="cls-1" x="458" y="248" width="56" height="224"/>
-    <rect class="cls-1" x="542" y="248" width="56" height="56"/>
-    <rect class="cls-1" x="542" y="332" width="56" height="56"/>
-    <rect class="cls-1" x="542" y="416" width="56" height="56"/>
+    <rect class="cls-1" x="156" y="264" width="48" height="192"/>
+    <rect class="cls-1" x="300" y="336" width="48" height="120"/>
+    <rect class="cls-1" x="228" y="264" width="48" height="120"/>
+    <rect class="cls-1" x="372" y="264" width="48" height="192"/>
+    <rect class="cls-1" x="444" y="264" width="48" height="192"/>
+    <rect class="cls-1" x="516" y="264" width="48" height="48"/>
+    <rect class="cls-1" x="516" y="336" width="48" height="48"/>
+    <rect class="cls-1" x="516" y="408" width="48" height="48"/>
   </g>
 </svg>
