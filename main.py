@@ -33,25 +33,8 @@ log_exclude_paths = ["status"]
 onion_hostname = "4sbb7xhdn4meuesnqvcreewk6sjnvchrsx4lpnxmnjhz2soat74finid.onion"
 templates.env.globals["onion_site_url"] = f"http://{onion_hostname}/"
 allowed_hostnames = ["localhost", "nercone.dev", "d-g-c.net", "diamondgotcat.net", onion_hostname]
-daily_phrases = [
-    "MarkItDownのネーミングセンス良いよね",
-    "LinuxディストリビューションはFedoraが最強",
-    "そろそろC++とかRustとか学ばなきゃだな",
-    "MicrosoftはGitHubだけやってればいい",
-    "Lythonのコード全部理解できるようになりたい",
-    "時代はzsh",
-    "macOSって意外と開発に合ってる",
-    "WindowsはNTFSをいつまで使うのか",
-    "このサイトのアクセスのほとんどはPHPとかWordpressとかを狙ったボットによるものです",
-    "Tailscale最高",
-    "眠い",
-    "人とは愚かなものです 特に僕",
-    "macOS Sonomama",
-    "TeXのバージョン番号の付け方面白い",
-    "Pithon 3.1415926535897932384696433",
-    "ねぇ知ってる？人間は皆ホモなんだよ？(ホモ・サピエンス)",
-    "このテキストは毎日0:00 UTCに変わるよ"
-]
+with Path(__file__).parent.joinpath("quotes.txt").open("r") as f:
+    daily_phrases = f.read().strip().split("\n")
 MAX_BODY_LOG_SIZE = 1024 * 128 # 128KiB
 
 def strip_ip_chars(s: str) -> str:
