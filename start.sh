@@ -1,1 +1,1 @@
-nercone-webserver
+/root/.local/bin/nercone-webserver
