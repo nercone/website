@@ -19,7 +19,15 @@ templates = Jinja2Templates(directory=Path.cwd().joinpath("public"))
 accesscounter = AccessCounter()
 templates.env.globals["get_access_count"] = accesscounter.get
 
-logging.basicConfig(filename=str(Path.cwd().joinpath("logs", "server.log")), level=logging.INFO, format="%(message)s", datefmt="[%X]", handlers=[RichHandler()])
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(message)s",
+    datefmt="[%X]",
+    handlers=[
+        RichHandler(),
+        logging.FileHandler(str(Path.cwd().joinpath("logs", "server.log")))
+    ]
+)
 logger = logging.getLogger("rich")
 
 def get_current_year():

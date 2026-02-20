@@ -8,7 +8,15 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 onion_hostname = "4sbb7xhdn4meuesnqvcreewk6sjnvchrsx4lpnxmnjhz2soat74finid.onion"
 hostnames = ["localhost", "nercone.dev", "d-g-c.net", "diamondgotcat.net", onion_hostname]
 
-logging.basicConfig(filename=str(Path.cwd().joinpath("logs", "middleware.log")), level=logging.INFO, format="%(message)s", datefmt="[%X]", handlers=[RichHandler()])
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(message)s",
+    datefmt="[%X]",
+    handlers=[
+        RichHandler(),
+        logging.FileHandler(str(Path.cwd().joinpath("logs", "middleware.log")))
+    ]
+)
 logger = logging.getLogger("rich")
 
 class Middleware:
