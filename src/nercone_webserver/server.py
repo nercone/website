@@ -1,6 +1,7 @@
 import json
 import random
 import psutil
+import subprocess
 from pathlib import Path
 from zoneinfo import ZoneInfo
 from datetime import datetime, timezone
@@ -15,6 +16,7 @@ app = FastAPI()
 app.add_middleware(Middleware)
 templates = Jinja2Templates(directory=Path.cwd().joinpath("public"))
 accesscounter = AccessCounter()
+templates.env.globals["server_version"] = subprocess.run(["/usr/bin/git", "rev-parse", "--short", "HEAD"], text=True).stdout.strip()
 templates.env.globals["get_access_count"] = accesscounter.get
 
 def get_current_year():

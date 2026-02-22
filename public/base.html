@@ -345,14 +345,15 @@
         <footer class="flex text-lowlight">
             <div class="flex-1 flex">
                 <a href="/" class="text-no-decoration"><span class="text-bold">nercone</span>.dev</a>
-                <a href="/about/" class="text-no-decoration hide show-on-large">about</a>
-                <a href="/links/" class="text-no-decoration hide show-on-large">links</a>
-                <a href="/projects/" class="text-no-decoration hide show-on-large">projects</a>
+                <a href="/about/" class="text-no-decoration">about</a>
+                <a href="/links/" class="text-no-decoration">links</a>
+                <a href="/projects/" class="text-no-decoration">projects</a>
+                <a href="{{ onion_site_url }}" class="text-no-decoration hide show-on-large">onion</a>
+                <a href="mailto:nercone@nercone.dev" class="text-no-decoration hide show-on-large">email</a>
+                <a href="/public-key/" class="text-no-decoration hide show-on-large">public-key</a>
             </div>
             <div class="flex">
-                <a href="{{ onion_site_url }}" class="text-no-decoration">onion</a>
-                <a href="mailto:nercone@nercone.dev" class="text-no-decoration">email</a>
-                <a href="/public-key/" class="text-no-decoration">public-key</a>
+                version {{ server_version }}
             </div>
         </footer>
     </body>
