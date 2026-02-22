@@ -22,6 +22,7 @@
             <p class="text-highlight big-text">{{ server_version }}</p>
             <div class="block">
                 <p>このサーバーで現在使用されているソースコードのコミットID(ハッシュ)の先頭7文字です。</p>
+                <p>サーバーが起動されるたびに<span class="code">git rev-parse --short HEAD</span>を使用して取得しています。</p>
                 <p>詳しくは<a href="https://github.com/nercone/website/tree/main/src/nercone_webserver/">このサーバーのソースコード</a>へ</p>
             </div>
 {% endblock %}
