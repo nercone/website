@@ -1,11 +1,9 @@
 import json
 import random
 import psutil
-import logging
 from pathlib import Path
 from zoneinfo import ZoneInfo
 from datetime import datetime, timezone
-from rich.logging import RichHandler
 from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, JSONResponse
@@ -19,24 +17,13 @@ templates = Jinja2Templates(directory=Path.cwd().joinpath("public"))
 accesscounter = AccessCounter()
 templates.env.globals["get_access_count"] = accesscounter.get
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[
-        RichHandler(),
-        logging.FileHandler(str(Path.cwd().joinpath("logs", "server.log")))
-    ]
-)
-logger = logging.getLogger("rich")
-
 def get_current_year():
     return str(datetime.now(ZoneInfo("Asia/Tokyo")).year)
 templates.env.globals["get_current_year"] = get_current_year
 
 def get_daily_quote() -> str:
     seed = str(datetime.now(timezone.utc).date())
-    with Path.cwd().joinpath("quotes.txt").open("r") as f:
+    with Path.cwd().joinpath("public", "quotes.txt").open("r") as f:
         quotes = f.read().strip().split("\n")
     return random.Random(seed).choice(quotes)
 templates.env.globals["get_daily_quote"] = get_daily_quote
@@ -80,38 +67,9 @@ async def v1_status(request: Request):
         status_code=200
     )
 
-@app.api_route("/api/v1/shorturl/{url_id:path}", methods=["GET", "POST", "HEAD"])
-async def short_url(request: Request, url_id: str):
-    json_path = Path.cwd().joinpath("shorturls.json")
-    if not json_path.exists():
-        return JSONResponse({"status": "error", "description": "Short URL configuration file not found."}, status_code=500)
-    try:
-        with json_path.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception:
-        return JSONResponse({"status": "error", "description": "Failed to load Short URL configuration."}, status_code=500)
-    current_id = url_id.strip().rstrip("/")
-    visited = set()
-    for _ in range(10):
-        if current_id in visited:
-            return JSONResponse({"status": "error", "description": "Circular alias detected."}, status_code=500)
-        visited.add(current_id)
-        if current_id not in data:
-            break
-        entry = data[current_id]
-        entry_type = entry.get("type")
-        content = entry.get("content")
-        if entry_type == "redirect":
-            return JSONResponse({"status": "ok", "content": content}, status_code=200)
-        elif entry_type == "alias":
-            current_id = content
-        else:
-            break
-    return JSONResponse({"status": "error", "content": f"Not Found: {current_id}"}, status_code=404)
-
 @app.api_route("/to/{url_id:path}", methods=["GET", "POST", "HEAD"])
 async def short_url(request: Request, url_id: str):
-    json_path = Path.cwd().joinpath("shorturls.json")
+    json_path = Path.cwd().joinpath("public", "shorturls.json")
     if not json_path.exists():
         return PlainTextResponse("Short URL configuration file not found.", status_code=500)
     try:

@@ -1,23 +1,9 @@
-import logging
-from pathlib import Path
-from rich.logging import RichHandler
 from fastapi import Response
 from fastapi.responses import PlainTextResponse
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 onion_hostname = "4sbb7xhdn4meuesnqvcreewk6sjnvchrsx4lpnxmnjhz2soat74finid.onion"
 hostnames = ["localhost", "nercone.dev", "d-g-c.net", "diamondgotcat.net", onion_hostname]
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[
-        RichHandler(),
-        logging.FileHandler(str(Path.cwd().joinpath("logs", "middleware.log")))
-    ]
-)
-logger = logging.getLogger("rich")
 
 class Middleware:
     def __init__(self, app: ASGIApp):

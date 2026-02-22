@@ -1,0 +1,5 @@
+{
+  "email": {"type": "redirect", "content": "mailto:nercone@nercone.dev"},
+  "github": {"type": "redirect", "content": "https://github.com/Nercone/"},
+  "twitter": {"type": "redirect", "content": "https://twitter.com/DiamondGotCat/"}
+}

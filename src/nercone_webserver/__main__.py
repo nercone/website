@@ -1,5 +1,4 @@
 import uvicorn
-import multiprocessing
 from .server import app
 
 def main():
