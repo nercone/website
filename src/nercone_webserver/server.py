@@ -10,13 +10,14 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, JSONResponse
 from jinja2.exceptions import TemplateNotFound
 from .database import AccessCounter
-from .middleware import Middleware
+from .middleware import Middleware, onion_hostname
 
 app = FastAPI()
 app.add_middleware(Middleware)
 templates = Jinja2Templates(directory=Path.cwd().joinpath("public"))
 accesscounter = AccessCounter()
 templates.env.globals["server_version"] = subprocess.run(["/usr/bin/git", "rev-parse", "--short", "HEAD"], text=True, capture_output=True).stdout.strip()
+templates.env.globals["onion_site_url"] = f"http://{onion_hostname}/"
 templates.env.globals["get_access_count"] = accesscounter.get
 
 def get_current_year():
