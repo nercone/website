@@ -7,8 +7,9 @@ from zoneinfo import ZoneInfo
 from datetime import datetime, timezone
 from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, JSONResponse
+from fastapi.responses import FileResponse, RedirectResponse, JSONResponse
 from jinja2.exceptions import TemplateNotFound
+from .error import error_page
 from .database import AccessCounter
 from .middleware import Middleware, onion_hostname
 
@@ -16,11 +17,11 @@ app = FastAPI()
 app.add_middleware(Middleware)
 templates = Jinja2Templates(directory=Path.cwd().joinpath("public"))
 accesscounter = AccessCounter()
-templates.env.globals["server_version"] = subprocess.run(["/usr/bin/git", "rev-parse", "--short", "HEAD"], text=True, capture_output=True).stdout.strip()
-templates.env.globals["onion_site_url"] = f"http://{onion_hostname}/"
 templates.env.globals["get_access_count"] = accesscounter.get
+templates.env.globals["onion_site_url"] = f"http://{onion_hostname}/"
+templates.env.globals["server_version"] = subprocess.run(["/usr/bin/git", "rev-parse", "--short", "HEAD"], text=True, capture_output=True).stdout.strip()
 
-def get_current_year():
+def get_current_year() -> str:
     return str(datetime.now(ZoneInfo("Asia/Tokyo")).year)
 templates.env.globals["get_current_year"] = get_current_year
 
@@ -74,17 +75,17 @@ async def v1_status(request: Request):
 async def short_url(request: Request, url_id: str):
     json_path = Path.cwd().joinpath("public", "shorturls.json")
     if not json_path.exists():
-        return PlainTextResponse("Short URL configuration file not found.", status_code=500)
+        return error_page(templates=templates, request=request, status_code=500, message="設定ファイルぐらい用意しておけよ！")
     try:
         with json_path.open("r", encoding="utf-8") as f:
             data = json.load(f)
     except Exception:
-        return PlainTextResponse("Failed to load Short URL configuration.", status_code=500)
+        return error_page(templates=templates, request=request, status_code=500, message="なにこの設定ファイル読めないじゃない！")
     current_id = url_id.strip().rstrip("/")
     visited = set()
     for _ in range(10):
         if current_id in visited:
-            return PlainTextResponse("Circular alias detected.", status_code=500)
+            return error_page(templates=templates, request=request, status_code=500, message="循環依存ってなんかちょっとえっt")
         visited.add(current_id)
         if current_id not in data:
             break
@@ -97,11 +98,7 @@ async def short_url(request: Request, url_id: str):
             current_id = content
         else:
             break
-    return templates.TemplateResponse(
-        status_code=404,
-        request=request,
-        name="to/404.html"
-    )
+    return error_page(templates=templates, request=request, status_code=404, message="知らんIDだ。そんなIDで大丈夫か？")
 
 @app.api_route("/{full_path:path}", methods=["GET", "POST", "HEAD"])
 async def default_response(request: Request, full_path: str) -> Response:
@@ -110,7 +107,7 @@ async def default_response(request: Request, full_path: str) -> Response:
         safe_full_path = full_path.lstrip('/')
         target_path = (base_dir / safe_full_path).resolve()
         if not str(target_path).startswith(str(base_dir.resolve())):
-            return PlainTextResponse("ディレクトリトラバーサルね、知ってる", status_code=403)
+            return error_page(templates=templates, request=request, status_code=403, message="ディレクトリトラバーサルね、知ってる。公開してないところ覗きたいの？えっt")
         if target_path.exists() and target_path.is_file():
             return FileResponse(target_path)
     templates_to_try = []
@@ -129,4 +126,4 @@ async def default_response(request: Request, full_path: str) -> Response:
             return response
         except TemplateNotFound:
             continue
-    return templates.TemplateResponse(status_code=404, request=request, name="404.html")
+    return error_page(templates=templates, request=request, status_code=404, message="すまんがそのページもう無いらしい。他を当たってくれ。")

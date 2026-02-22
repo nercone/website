@@ -333,28 +333,24 @@
 {% endblock %}    </head>
     <body>
         <header class="flex">
-            <div class="flex-1 flex">
-                <a href="/" class="text-no-decoration text-highlight" style="gap: 8px;"><span class="text-bold">Nercone</span> {% block extra_title %}{% endblock %}</a>
-                <p class="hide show-on-medium">{% block header_desc %}{{ get_daily_quote() }}{% endblock %}</p>
-            </div>
-            <div class="flex">
-                <a href="/access-counter/" class="text-no-decoration text-highlight">#{{ get_access_count() }}</a>
-                <a href="/server-version/" class="text-no-decoration text-highlight">{{ server_version }}</a>
-            </div>
+            <a href="/" class="text-no-decoration text-highlight" style="gap: 8px;"><span class="text-bold">Nercone</span> {% block extra_title %}{% endblock %}</a>
+            <p class="hide show-on-medium">{% block header_desc %}{{ get_daily_quote() }}{% endblock %}</p>
         </header>
-        <main>{% block content %}{% endblock %}        </main>
+        <main>{% block content %}
+{% endblock %}        </main>
         <footer class="flex text-lowlight">
             <div class="flex-1 flex">
                 <a href="/" class="text-no-decoration"><span class="text-bold">nercone</span>.dev</a>
                 <a href="/about/" class="text-no-decoration">about</a>
                 <a href="/links/" class="text-no-decoration">links</a>
                 <a href="/projects/" class="text-no-decoration">projects</a>
-                <a href="mailto:nercone@nercone.dev" class="text-no-decoration">email</a>
+                <a href="mailto:nercone@nercone.dev" class="text-no-decoration hide show-on-large">email</a>
                 <a href="{{ onion_site_url }}" class="text-no-decoration hide show-on-large">onion</a>
                 <a href="/public-key/" class="text-no-decoration hide show-on-large">public-key</a>
             </div>
             <div class="flex">
-                <p class="hide show-on-large">thank you for visit, have a nice day!</p>
+                <a href="/access-counter/" class="text-no-decoration">#{{ get_access_count() }}</a>
+                <a href="/server-version/" class="text-no-decoration hide show-on-large">Version {{ server_version }}</a>
             </div>
         </footer>
     </body>
