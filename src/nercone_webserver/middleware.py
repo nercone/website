@@ -86,7 +86,7 @@ class Middleware:
         return body
 
     async def _send_with_headers(self, response: Response, scope, receive, send):
-        response.headers["Server"] = "Nercone"
+        response.headers["Server"] = "nercone"
         response.headers["Onion-Location"] = f"http://{onion_hostname}/"
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "*"
