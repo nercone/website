@@ -334,7 +334,7 @@
     <body>
         <header class="flex">
             <a href="/" class="text-no-decoration text-highlight" style="gap: 8px;"><span class="text-bold">Nercone</span> {% block extra_title %}{% endblock %}</a>
-            <p class="hide show-on-medium">{% block header_desc %}<a href="/daily_quote/">{{ get_daily_quote() }}</a>{% endblock %}</p>
+            <p class="hide show-on-medium">{% block header_desc %}<a href="/daily_quote/" class="text-no-decoration">{{ get_daily_quote() }}</a>{% endblock %}</p>
         </header>
         <main>{% block content %}
 {% endblock %}        </main>
