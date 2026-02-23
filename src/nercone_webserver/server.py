@@ -10,6 +10,7 @@ from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import FileResponse, RedirectResponse, JSONResponse
 from jinja2.exceptions import TemplateNotFound
+from .error import error_page
 from .database import AccessCounter
 from .middleware import Middleware, onion_hostname
 
@@ -32,12 +33,8 @@ def get_daily_quote() -> str:
     return random.Random(seed).choice(quotes)
 templates.env.globals["get_daily_quote"] = get_daily_quote
 
-def error_page(templates: Jinja2Templates, request: Request, status_code: int, message: str | None = None) -> Response:
-    status_code_name = HTTPStatus(status_code).phrase
-    return templates.TemplateResponse(status_code=status_code, request=request, name="error.html", context={"status_code": status_code, "status_code_name": status_code_name, "message": message})
-
-@app.api_route("/api/v1/status", methods=["GET"])
-async def v1_status(request: Request):
+@app.api_route("/status", methods=["GET"])
+async def status(request: Request):
     virtual_memory = psutil.virtual_memory()
     swap_memory = psutil.swap_memory()
     disk_usage = psutil.disk_usage("/")
@@ -74,6 +71,10 @@ async def v1_status(request: Request):
         },
         status_code=200
     )
+
+@app.api_route("/error/{code}", methods=["GET", "POST", "HEAD"])
+async def fake_error_page(request: Request, code: str):
+    return error_page(templates=templates, request=request, status_code=int(code))
 
 @app.api_route("/to/{url_id:path}", methods=["GET", "POST", "HEAD"])
 async def short_url(request: Request, url_id: str):
@@ -130,4 +131,4 @@ async def default_response(request: Request, full_path: str) -> Response:
             return response
         except TemplateNotFound:
             continue
-    return error_page(templates=templates, request=request, status_code=404, message="すまんがそのページもう無いらしい。他を当たってくれ。")
+    return error_page(templates=templates, request=request, status_code=404, message="そんなページ知らないっ！")
