@@ -3,7 +3,11 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #fff;
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 16px;
       }
 
       .cls-2 {
@@ -12,14 +16,5 @@
     </style>
   </defs>
   <rect class="cls-2" width="720" height="720" rx="160" ry="160"/>
-  <g>
-    <rect class="cls-1" x="156" y="264" width="48" height="192"/>
-    <rect class="cls-1" x="300" y="336" width="48" height="120"/>
-    <rect class="cls-1" x="228" y="264" width="48" height="120"/>
-    <rect class="cls-1" x="372" y="264" width="48" height="192"/>
-    <rect class="cls-1" x="444" y="264" width="48" height="192"/>
-    <rect class="cls-1" x="516" y="264" width="48" height="48"/>
-    <rect class="cls-1" x="516" y="336" width="48" height="48"/>
-    <rect class="cls-1" x="516" y="408" width="48" height="48"/>
-  </g>
+  <polyline class="cls-1" points="0 360 360 360 540 180 540 540 180 540 180 180 720 360"/>
 </svg>
