@@ -312,6 +312,8 @@
                 let rafId = null;
                 let cursor = null;
                 let cursorVisible = false;
+                let lastTouchTime = 0;
+                const TOUCH_MOUSE_GUARD_MS = 800;
 
                 function showCursor() {
                     if (!cursorVisible && cursor) {
@@ -321,13 +323,17 @@
                 }
 
                 function hideCursor() {
-                    if (cursorVisible && cursor) {
+                    if (cursor) {
                         cursorVisible = false;
                         cursor.classList.remove('visible');
                         currentLinkEl = null;
                         if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
                         cursor.classList.remove('on-link', 'on-text');
                     }
+                }
+
+                function isSyntheticMouse() {
+                    return Date.now() - lastTouchTime < TOUCH_MOUSE_GUARD_MS;
                 }
 
                 function updateCursorForLink(el) {
@@ -352,10 +358,12 @@
                     cursor = document.getElementById('cursor');
                     if (!cursor) return;
 
-                    document.addEventListener('touchstart', hideCursor, { passive: true });
-                    document.addEventListener('touchmove', hideCursor, { passive: true });
+                    document.addEventListener('touchstart', () => { lastTouchTime = Date.now(); hideCursor(); }, { passive: true });
+                    document.addEventListener('touchmove', () => { lastTouchTime = Date.now(); hideCursor(); }, { passive: true });
+                    document.addEventListener('touchend', () => { lastTouchTime = Date.now(); }, { passive: true });
 
                     document.addEventListener('mousemove', (e) => {
+                        if (isSyntheticMouse()) return;
                         if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
 
                         mouseX = e.clientX;
