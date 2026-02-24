@@ -265,6 +265,30 @@
                     pointer-events: none;
                 }
             }
+            * { cursor: none; }
+            #cursor {
+                position: fixed;
+                z-index: 99999;
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background: #C8C8C8C0;
+                pointer-events: none;
+                transform: translate(-50%, -50%);
+                transition:
+                    left 0.08s ease-out,
+                    top 0.08s ease-out,
+                    width 0.2s ease,
+                    height 0.2s ease,
+                    border-radius 0.2s ease,
+                    background 0.2s ease;
+            }
+            #cursor.on-text {
+                width: 3px;
+                height: 1.2em;
+                border-radius: 2px;
+                background: #C8C8C8D0;
+            }
         </style>
         <script>
             (() => {
@@ -329,15 +353,44 @@
                     location.reload();
                 });
             })();
-        </script>{% block extra_head %}
-{% endblock %}    </head>
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const cursor = document.getElementById('cursor');
+                const textSelectors = 'p, h1, h2, h3, h4, h5, h6, span, li, label, td, th';
+
+                let mouseX = 0, mouseY = 0;
+
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    cursor.style.left = mouseX + 'px';
+                    cursor.style.top  = mouseY + 'px';
+
+                    const el = document.elementFromPoint(mouseX, mouseY);
+                    if (el && el.closest(textSelectors)) {
+                        cursor.classList.add('on-text');
+                    } else {
+                        cursor.classList.remove('on-text');
+                    }
+                });
+
+                document.addEventListener('mousedown', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                });
+                document.addEventListener('mouseup', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            });
+        </script>
+        {% block extra_head %}{% endblock %}
+    </head>
     <body>
+        <div id="cursor"></div>
         <header class="flex">
             <a href="/" class="text-no-decoration text-highlight" style="gap: 8px;"><span class="text-bold">Nercone</span> {% block extra_title %}{% endblock %}</a>
             <p class="hide show-on-medium">{% block header_desc %}<a href="/daily_quote/" class="text-no-decoration">{{ get_daily_quote() }}</a>{% endblock %}</p>
         </header>
-        <main>{% block content %}
-{% endblock %}        </main>
+        <main>{% block content %}{% endblock %}</main>
         <footer class="flex text-lowlight">
             <div class="flex-1 flex">
                 <a href="/" class="text-no-decoration"><span class="text-bold">nercone</span>.dev</a>
