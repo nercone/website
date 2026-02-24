@@ -276,6 +276,7 @@
                 background: #C8C8C8C0;
                 pointer-events: none;
                 transform: translate(-50%, -50%);
+                opacity: 0;
                 transition:
                     left 0.08s ease-out,
                     top 0.08s ease-out,
@@ -284,7 +285,10 @@
                     border-radius 0.15s cubic-bezier(0.22, 1, 0.36, 1),
                     background 0.15s ease,
                     transform 0.08s ease-out,
-                    opacity 0.15s ease;
+                    opacity 0.3s ease;
+            }
+            #cursor.visible {
+                opacity: 1;
             }
             #cursor.on-text {
                 width: 3px;
@@ -307,6 +311,24 @@
                 let currentLinkEl = null;
                 let rafId = null;
                 let cursor = null;
+                let cursorVisible = false;
+
+                function showCursor() {
+                    if (!cursorVisible && cursor) {
+                        cursorVisible = true;
+                        cursor.classList.add('visible');
+                    }
+                }
+
+                function hideCursor() {
+                    if (cursorVisible && cursor) {
+                        cursorVisible = false;
+                        cursor.classList.remove('visible');
+                        currentLinkEl = null;
+                        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+                        cursor.classList.remove('on-link', 'on-text');
+                    }
+                }
 
                 function updateCursorForLink(el) {
                     const rect = el.getBoundingClientRect();
@@ -330,9 +352,16 @@
                     cursor = document.getElementById('cursor');
                     if (!cursor) return;
 
+                    document.addEventListener('touchstart', hideCursor, { passive: true });
+                    document.addEventListener('touchmove', hideCursor, { passive: true });
+
                     document.addEventListener('mousemove', (e) => {
+                        if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+
                         mouseX = e.clientX;
                         mouseY = e.clientY;
+
+                        showCursor();
 
                         const el = document.elementFromPoint(mouseX, mouseY);
                         const linkEl = el ? el.closest(linkSelectors) : null;
