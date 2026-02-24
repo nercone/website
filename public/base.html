@@ -267,6 +267,7 @@
             }
             * { cursor: none; }
             #cursor {
+                view-transition-name: none;
                 position: fixed;
                 z-index: 99999;
                 width: 25px;
@@ -278,10 +279,12 @@
                 transition:
                     left 0.08s ease-out,
                     top 0.08s ease-out,
-                    width 0.2s ease,
-                    height 0.2s ease,
-                    border-radius 0.2s ease,
-                    background 0.2s ease;
+                    width 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+                    height 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+                    border-radius 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+                    background 0.15s ease,
+                    transform 0.08s ease-out,
+                    opacity 0.15s ease;
             }
             #cursor.on-text {
                 width: 3px;
@@ -289,98 +292,145 @@
                 border-radius: 2px;
                 background: #C8C8C8D0;
             }
+            #cursor.on-link {
+                border-radius: 6px;
+                background: #C8C8C840;
+                border: 1.5px solid #C8C8C860;
+                transform: translate(0, 0);
+            }
         </style>
         <script>
             (() => {
-                if (!document.startViewTransition) return;
-
-                document.addEventListener("click", (event) => {
-                    const link = event.target.closest("a");
-                    if (!link) return;
-                    if (link.hasAttribute('download')) return;
-
-                    const url = new URL(link.href, location.href);
-
-                    if (url.origin !== location.origin) return;
-                    if (link.target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-
-                    event.preventDefault();
-
-                    document.startViewTransition(async () => {
-                        const response = await fetch(url.href, {
-                            headers: { "X-Requested-With": "view-transition" }
-                        });
-
-                        const html = await response.text();
-                        const doc = new DOMParser().parseFromString(html, "text/html");
-
-                        const newHead = doc.querySelector("head");
-                        const currentHead = document.querySelector("head");
-                        if (!newHead || !currentHead) {
-                            location.href = url.href;
-                            return;
-                        }
-                        currentHead.innerHTML = newHead.innerHTML;
-
-                        const newHeader = doc.querySelector("header");
-                        const currentHeader = document.querySelector("header");
-                        if (!newHeader || !currentHeader) {
-                            location.href = url.href;
-                            return;
-                        }
-                        currentHeader.innerHTML = newHeader.innerHTML;
-
-                        const newMain = doc.querySelector("main");
-                        const currentMain = document.querySelector("main");
-                        if (!newMain || !currentMain) {
-                            location.href = url.href;
-                            return;
-                        }
-                        currentMain.innerHTML = newMain.innerHTML;
-
-                        const newFooter = doc.querySelector("footer");
-                        const currentFooter = document.querySelector("footer");
-                        if (!newFooter || !currentFooter) {
-                            location.href = url.href;
-                            return;
-                        }
-                        currentFooter.innerHTML = newFooter.innerHTML;
-
-                        history.pushState(null, "", url.href);
-                    });
-                });
-                window.addEventListener("popstate", () => {
-                    location.reload();
-                });
-            })();
-
-            document.addEventListener('DOMContentLoaded', () => {
-                const cursor = document.getElementById('cursor');
                 const textSelectors = 'p, h1, h2, h3, h4, h5, h6, span, li, label, td, th';
+                const linkSelectors = 'a, button, [role="button"], input[type="submit"], input[type="button"]';
+                const padding = 6;
 
                 let mouseX = 0, mouseY = 0;
+                let currentLinkEl = null;
+                let rafId = null;
+                let cursor = null;
 
-                document.addEventListener('mousemove', (e) => {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-                    cursor.style.left = mouseX + 'px';
-                    cursor.style.top  = mouseY + 'px';
+                function updateCursorForLink(el) {
+                    const rect = el.getBoundingClientRect();
+                    cursor.classList.remove('on-text');
+                    cursor.classList.add('on-link');
+                    cursor.style.transform = 'none';
+                    cursor.style.left   = (rect.left - padding) + 'px';
+                    cursor.style.top    = (rect.top  - padding) + 'px';
+                    cursor.style.width  = (rect.width  + padding * 2) + 'px';
+                    cursor.style.height = (rect.height + padding * 2) + 'px';
+                }
 
-                    const el = document.elementFromPoint(mouseX, mouseY);
-                    if (el && el.closest(textSelectors)) {
-                        cursor.classList.add('on-text');
-                    } else {
-                        cursor.classList.remove('on-text');
+                function trackLink() {
+                    if (currentLinkEl) {
+                        updateCursorForLink(currentLinkEl);
+                        rafId = requestAnimationFrame(trackLink);
                     }
+                }
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    cursor = document.getElementById('cursor');
+                    if (!cursor) return;
+
+                    document.addEventListener('mousemove', (e) => {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+
+                        const el = document.elementFromPoint(mouseX, mouseY);
+                        const linkEl = el ? el.closest(linkSelectors) : null;
+
+                        if (linkEl) {
+                            if (currentLinkEl !== linkEl) {
+                                currentLinkEl = linkEl;
+                                if (rafId) cancelAnimationFrame(rafId);
+                                rafId = requestAnimationFrame(trackLink);
+                            }
+                        } else {
+                            if (currentLinkEl) {
+                                currentLinkEl = null;
+                                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+                            }
+                            cursor.classList.remove('on-link');
+                            cursor.style.transform = 'translate(-50%, -50%)';
+                            cursor.style.left = mouseX + 'px';
+                            cursor.style.top  = mouseY + 'px';
+                            cursor.style.width = '';
+                            cursor.style.height = '';
+
+                            if (el && el.closest(textSelectors)) {
+                                cursor.classList.add('on-text');
+                            } else {
+                                cursor.classList.remove('on-text');
+                            }
+                        }
+                    });
+
+                    document.addEventListener('mousedown', () => {
+                        cursor.style.transform = currentLinkEl
+                            ? 'translate(0, 0) scale(0.97)'
+                            : 'translate(-50%, -50%) scale(0.9)';
+                    });
+                    document.addEventListener('mouseup', () => {
+                        cursor.style.transform = currentLinkEl
+                            ? 'translate(0, 0) scale(1)'
+                            : 'translate(-50%, -50%) scale(1)';
+                    });
+
+                    window.addEventListener('scroll', () => {
+                        if (currentLinkEl) updateCursorForLink(currentLinkEl);
+                    }, { passive: true });
                 });
 
-                document.addEventListener('mousedown', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(0.9)';
-                });
-                document.addEventListener('mouseup', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                });
-            });
+                if (document.startViewTransition) {
+                    document.addEventListener("click", (event) => {
+                        const link = event.target.closest("a");
+                        if (!link || link.hasAttribute('download')) return;
+
+                        const url = new URL(link.href, location.href);
+                        if (url.origin !== location.origin) return;
+                        if (link.target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+                        event.preventDefault();
+
+                        document.startViewTransition(async () => {
+                            const response = await fetch(url.href, {
+                                headers: { "X-Requested-With": "view-transition" }
+                            });
+                            const html = await response.text();
+                            const doc = new DOMParser().parseFromString(html, "text/html");
+
+                            for (const tag of ['head', 'header', 'main', 'footer']) {
+                                const newEl = doc.querySelector(tag);
+                                const curEl = document.querySelector(tag);
+                                if (!newEl || !curEl) { location.href = url.href; return; }
+                                curEl.innerHTML = newEl.innerHTML;
+                            }
+
+                            history.pushState(null, "", url.href);
+
+                            currentLinkEl = null;
+                            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+                            cursor.classList.remove('on-link', 'on-text');
+                            cursor.style.transform = 'translate(-50%, -50%)';
+                            cursor.style.left = mouseX + 'px';
+                            cursor.style.top  = mouseY + 'px';
+                            cursor.style.width = '';
+                            cursor.style.height = '';
+
+                            const el = document.elementFromPoint(mouseX, mouseY);
+                            const newLinkEl = el ? el.closest(linkSelectors) : null;
+                            if (newLinkEl) {
+                                currentLinkEl = newLinkEl;
+                                rafId = requestAnimationFrame(trackLink);
+                            } else if (el && el.closest(textSelectors)) {
+                                cursor.classList.add('on-text');
+                            }
+                        });
+                    });
+
+                    window.addEventListener("popstate", () => location.reload());
+                }
+            })();
         </script>
         {% block extra_head %}{% endblock %}
     </head>
