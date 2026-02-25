@@ -1,6 +1,5 @@
 {
-    "name": "nercone's website",
-    "short_name": "nercone.dev",
+    "name": "nercone.dev",
     "description": "作りたいものを作り、やりたくないことからは逃げる学生",
     "start_url": "https://nercone.dev/",
     "display": "standalone",
@@ -15,6 +14,33 @@
             "src": "/assets/images/favicon.png",
             "type": "image/png",
             "sizes": "720x720"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "About Nercone",
+            "short_name": "About",
+            "url": "/about"
+        },
+        {
+            "name": "Links",
+            "url": "/links"
+        },
+        {
+            "name": "Projects",
+            "url": "/projects"
+        },
+        {
+            "name": "Public Keys",
+            "url": "/public-key"
+        },
+        {
+            "name": "Daily Quote",
+            "url": "/daily-quote"
+        },
+        {
+            "name": "Access Counter",
+            "url": "/access-counter"
         }
     ]
 }

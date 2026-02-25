@@ -1,5 +1,6 @@
 {
   "email": {"type": "redirect", "content": "mailto:nercone@nercone.dev"},
   "github": {"type": "redirect", "content": "https://github.com/nercone-dev/"},
-  "twitter": {"type": "redirect", "content": "https://twitter.com/nercone_x/"}
+  "twitter": {"type": "redirect", "content": "https://twitter.com/nercone_x/"},
+  "youtube": {"type": "redirect", "content": "https://youtube.com/@nercone-ch/"}
 }
