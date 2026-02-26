@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 from datetime import datetime, timezone
 from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse, RedirectResponse, JSONResponse
+from fastapi.responses import PlainTextResponse, JSONResponse, FileResponse, RedirectResponse
 from jinja2.exceptions import TemplateNotFound
 from .error import error_page
 from .database import AccessCounter
@@ -32,6 +32,10 @@ def get_daily_quote() -> str:
         quotes = f.read().strip().split("\n")
     return random.Random(seed).choice(quotes)
 templates.env.globals["get_daily_quote"] = get_daily_quote
+
+@app.api_route("/ping", methods=["GET"])
+async def ping(request: Request):
+    return PlainTextResponse("pong!", status_code=200)
 
 @app.api_route("/status", methods=["GET"])
 async def status(request: Request):
@@ -76,35 +80,6 @@ async def status(request: Request):
 async def fake_error_page(request: Request, code: str):
     return error_page(templates=templates, request=request, status_code=int(code))
 
-@app.api_route("/to/{url_id:path}", methods=["GET", "POST", "HEAD"])
-async def short_url(request: Request, url_id: str):
-    json_path = Path.cwd().joinpath("public", "shorturls.json")
-    if not json_path.exists():
-        return error_page(templates=templates, request=request, status_code=500, message="設定ファイルぐらい用意しておけよ！")
-    try:
-        with json_path.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception:
-        return error_page(templates=templates, request=request, status_code=500, message="なにこの設定ファイル読めないじゃない！")
-    current_id = url_id.strip().rstrip("/")
-    visited = set()
-    for _ in range(10):
-        if current_id in visited:
-            return error_page(templates=templates, request=request, status_code=500, message="循環依存ってなんかちょっとえっt")
-        visited.add(current_id)
-        if current_id not in data:
-            break
-        entry = data[current_id]
-        entry_type = entry.get("type")
-        content = entry.get("content")
-        if entry_type == "redirect":
-            return RedirectResponse(url=content)
-        elif entry_type == "alias":
-            current_id = content
-        else:
-            break
-    return error_page(templates=templates, request=request, status_code=404, message="知らんIDだ。そんなIDで大丈夫か？")
-
 @app.api_route("/{full_path:path}", methods=["GET", "POST", "HEAD"])
 async def default_response(request: Request, full_path: str) -> Response:
     if not full_path.endswith(".html"):
@@ -131,4 +106,29 @@ async def default_response(request: Request, full_path: str) -> Response:
             return response
         except TemplateNotFound:
             continue
+    shorturls_json = Path.cwd().joinpath("public", "shorturls.json")
+    if not shorturls_json.exists():
+        return error_page(templates=templates, request=request, status_code=500, message="設定ファイルぐらい用意しておけよ！")
+    try:
+        with shorturls_json.open("r", encoding="utf-8") as f:
+            shorturls = json.load(f)
+    except Exception:
+        return error_page(templates=templates, request=request, status_code=500, message="なにこの設定ファイル読めないじゃない！")
+    current_id = full_path.strip().rstrip("/")
+    visited = set()
+    for _ in range(10):
+        if current_id in visited:
+            return error_page(templates=templates, request=request, status_code=500, message="循環依存ってなんかちょっとえっt")
+        visited.add(current_id)
+        if current_id not in shorturls:
+            break
+        entry = shorturls[current_id]
+        entry_type = entry.get("type")
+        content = entry.get("content")
+        if entry_type == "redirect":
+            return RedirectResponse(url=content)
+        elif entry_type == "alias":
+            current_id = content
+        else:
+            break
     return error_page(templates=templates, request=request, status_code=404, message="そんなページ知らないっ！")
