@@ -7,13 +7,9 @@
     "background_color": "#202020",
     "icons": [
         {
-            "src": "/assets/images/favicon.svg",
-            "type": "image/svg+xml"
-        },
-        {
-            "src": "/assets/images/favicon.png",
+            "src": "/assets/images/favicon_cat.png",
             "type": "image/png",
-            "sizes": "720x720"
+            "sizes": "1200x1200"
         }
     ],
     "shortcuts": [
