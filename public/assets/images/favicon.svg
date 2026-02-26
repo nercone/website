@@ -15,6 +15,6 @@
       }
     </style>
   </defs>
-  <rect class="cls-2" width="720" height="720"/>
+  <rect class="cls-2" width="720" height="720" rx="128" ry="128"/>
   <polyline class="cls-1" points="0 360 360 360 540 180 540 540 180 540 180 180 720 360"/>
 </svg>
