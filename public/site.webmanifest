@@ -7,7 +7,7 @@
     "background_color": "#202020",
     "icons": [
         {
-            "src": "/assets/images/favicon_cat.png",
+            "src": "/assets/images/cat_favicon.png",
             "type": "image/png",
             "sizes": "1200x1200"
         }

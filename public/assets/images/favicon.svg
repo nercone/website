@@ -5,8 +5,8 @@
       .cls-1 {
         fill: none;
         stroke: #fff;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+        stroke-linecap: square;
+        stroke-miterlimit: 10;
         stroke-width: 16px;
       }
 
@@ -15,6 +15,6 @@
       }
     </style>
   </defs>
-  <rect class="cls-2" width="720" height="720" rx="160" ry="160"/>
+  <rect class="cls-2" width="720" height="720"/>
   <polyline class="cls-1" points="0 360 360 360 540 180 540 540 180 540 180 180 720 360"/>
 </svg>
