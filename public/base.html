@@ -471,8 +471,13 @@
     <body>
         <div id="cursor"></div>
         <header class="flex">
-            <a href="/" class="text-no-decoration text-highlight" style="gap: 8px;"><span class="text-bold">Nercone</span> {% block extra_title %}{% endblock %}</a>
-            <p class="hide show-on-medium">{% block header_desc %}<a href="/daily-quote/" class="text-no-decoration">{{ get_daily_quote() }}</a>{% endblock %}</p>
+            <div class="flex-1 flex">
+                <a href="/" class="text-no-decoration text-highlight" style="gap: 8px;"><span class="text-bold">Nercone</span> {% block extra_title %}{% endblock %}</a>
+                <p class="hide show-on-medium">{% block header_desc %}<a href="/daily-quote/" class="text-no-decoration">{{ get_daily_quote() }}</a>{% endblock %}</p>
+            </div>
+            <div class="flex">
+                <a href="/access-counter/" class="text-no-decoration">#{{ get_access_count() }}</a>
+            </div>
         </header>
         <main>{% block content %}{% endblock %}</main>
         <footer class="flex text-lowlight">
@@ -486,8 +491,7 @@
                 <a href="/public-key/" class="text-no-decoration hide show-on-medium">public-key</a>
             </div>
             <div class="flex">
-                <a href="/access-counter/" class="text-no-decoration">#{{ get_access_count() }}</a>
-                <a href="/server-version/" class="text-no-decoration hide show-on-medium">Version {{ server_version }}</a>
+                <p class="hide show-on-medium"><a href="https://github.com/nercone-dev/website/" class="text-no-decoration">version:</a><a href="/server-version/" class="text-no-decoration">{{ server_version }}</a></p>
             </div>
         </footer>
     </body>
