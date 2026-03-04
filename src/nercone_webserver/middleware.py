@@ -36,7 +36,7 @@ class Middleware:
 
         if subdomain not in ["", "www"]:
             original_path = scope["path"] if scope["path"].strip() else "/"
-            subdomain_path = f"/{subdomain}{original_path}"
+            subdomain_path = f"/{'/'.join(subdomain.split('.')[::-1])}{original_path}"
 
             response = await self._get_response(scope, cached_receive, subdomain_path)
             if response.status_code < 400:
