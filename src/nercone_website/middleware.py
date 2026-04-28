@@ -119,6 +119,36 @@ class Middleware:
             response.headers["Access-Control-Allow-Methods"] = "*"
             response.headers["Access-Control-Allow-Headers"] = "*"
 
+        if "referrer-policy" not in response.headers:
+            response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+
+        if "content-security-policy" not in response.headers:
+            response.headers["Content-Security-Policy"] = """
+default-src 'self' assets.nercone.dev;
+script-src assets.nercone.dev;
+style-src assets.nercone.dev fonts.googleapis.com;
+font-src fonts.gstatic.com;
+img-src 'self' assets.nercone.dev data:;
+connect-src 'self';
+frame-ancestors 'self';
+base-uri 'self';
+form-action 'self';
+upgrade-insecure-requests;
+            """.strip()
+
+        if "permissions-policy" not in response.headers:
+            response.headers["Permissions-Policy"] = """
+camera=(),
+microphone=(),
+geolocation=(),
+payment=(),
+usb=(),
+accelerometer=(),
+gyroscope=(),
+magnetometer=(),
+display-capture=()
+            """.strip()
+
         if any(content_type.startswith(t) for t in ["text/html", "text/css", "text/javascript", "application/javascript"]):
             response.headers["Cache-Control"] = "no-cache"
         else:
