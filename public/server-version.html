@@ -18,7 +18,7 @@
         </style>
 {% endblock %}
 {% block content %}
-            <p class="text-white big-text"><span class="text-bright-light-grey unselectable" translate="no">rev-</span>{{ server_version }}</p>
+            <p class="text-white big-text"><span class="text-bright-light-grey unselectable" translate="no">commit:</span>{{ server_version }}</p>
             <div class="block">
                 <p>このサーバーで現在使用されているソースコードのコミットID(ハッシュ)の先頭7文字です。</p>
                 <p>サーバーが起動されるたびに<code>git rev-parse --short HEAD</code>を使用して取得しています。</p>
