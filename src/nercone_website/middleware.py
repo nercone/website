@@ -9,7 +9,7 @@ from .logger import log_access, finalize_log
 
 server_version = subprocess.run(["/usr/bin/git", "rev-parse", "--short", "HEAD"], text=True, capture_output=True).stdout.strip()
 onion_hostname = "4sbb7xhdn4meuesnqvcreewk6sjnvchrsx4lpnxmnjhz2soat74finid.onion"
-hostnames = ["localhost", "nercone.dev", "d-g-c.net", "diamondgotcat.net", onion_hostname]
+hostnames = ["localhost", "nercone.dev", "nerc1.dev", "diamondgotcat.net", "d-g-c.net", onion_hostname]
 
 class Middleware:
     def __init__(self, app: ASGIApp):
