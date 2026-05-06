@@ -4,9 +4,9 @@ title_suffix: Color Palette
 header_desc: ただのカラーパレット
 ---
 
-<div class="flex">
-    <img src="/assets/images/color-palette/2001.png" height="256" style="border-radius: 6px;">
-    <img src="/assets/images/color-palette/2011.png" height="256" style="border-radius: 6px;">
+<div class="flex flex-wrap">
+    <img src="/assets/images/color-palette/2001.png" style="max-height: 256px; max-width: 100%; border-radius: 6px;">
+    <img src="/assets/images/color-palette/2011.png" style="max-height: 256px; max-width: 100%; border-radius: 6px;">
 </div>
 
 ## Nercone's Color Palette
