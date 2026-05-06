@@ -2,6 +2,7 @@
 title: Nercone's Color Palette
 title_suffix: Color Palette
 header_desc: ただのカラーパレット
+description: Nerconeが制作したカラーパレット
 ---
 
 <div class="flex flex-wrap">
@@ -20,7 +21,7 @@ Nerconeが制作したカラーパレットです。
 ### 2001 / 2011
 RGBからCMYKへの変換にはPillowを使用していて、内蔵のsRGBプロファイルと、Japan Color様により配布されているICCプロファイルを使用しています。
 
-それぞれ、Nercone's Color Palette (2001)は<b>Japan Color 2001 Coated</b>、Nercone's Color Palette (2011)は<b>Japan Color 2011 Coated</b>を使用しています。
+それぞれ、Nercone's Color Palette (2001)は**Japan Color 2001 Coated**、Nercone's Color Palette (2011)は**Japan Color 2011 Coated**を使用しています。
 
 現在は2011の方が主流らしいです。
 
